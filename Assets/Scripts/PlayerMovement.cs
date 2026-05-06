@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            /*
+            
             if (!ropeTight)
             {
                 rb.linearVelocity = new Vector3(moveInput * speed, rb.linearVelocity.y, 0);
@@ -75,8 +75,10 @@ public class PlayerMovement : MonoBehaviour
                     rb.linearVelocity = new Vector3(Mathf.Sign(rb.linearVelocity.x) * maxAirSpeed, rb.linearVelocity.y, 0);
                 }
             }
-            */
+            
 
+
+            /*
             rb.AddForce(Vector3.right * moveInput * airAcceleration, ForceMode.Acceleration);
 
             //float maxAirSpeed = speed * 1.5f;
@@ -85,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
             if (Mathf.Abs(rb.linearVelocity.x) > maxAirSpeed)
             {
                 rb.linearVelocity = new Vector3(Mathf.Sign(rb.linearVelocity.x) * maxAirSpeed, rb.linearVelocity.y, 0);
-            }
+            }*/
         }
        // Debug.Log(playerGrounded);
     }
