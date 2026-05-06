@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Rope : MonoBehaviour
 {
+    [SerializeField]
+    public bool bungee;
+
+
     public Transform anchorPlayer;
     public float maxRopeLength = 5f;
 

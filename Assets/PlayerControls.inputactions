@@ -32,6 +32,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BungeeLaunch",
+                    "type": "Button",
+                    "id": "1b32f0d0-b566-4a47-9b42-848130ab5a0c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -76,6 +85,17 @@
                     "processors": "",
                     "groups": "Player",
                     "action": "Anchor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e95c0ad-7715-4214-93d2-edcf29b8a67f",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Player",
+                    "action": "BungeeLaunch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

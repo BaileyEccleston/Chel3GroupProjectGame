@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
     public bool coyoteTimeStarted = false;
     public float coyoteTimeLength = 0.2f;
 
+    bool ropeTight;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -50,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float distance = Vector3.Distance(transform.position, otherPlayer.position);
-        bool ropeTight = distance >= rope.maxRopeLength * ropeTensionThreshold;
+        ropeTight = distance >= rope.maxRopeLength * ropeTensionThreshold;
 
         if (playerGrounded)
         {
@@ -58,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            
             if (!ropeTight)
             {
                 rb.linearVelocity = new Vector3(moveInput * speed, rb.linearVelocity.y, 0);
@@ -75,21 +76,22 @@ public class PlayerMovement : MonoBehaviour
                     rb.linearVelocity = new Vector3(Mathf.Sign(rb.linearVelocity.x) * maxAirSpeed, rb.linearVelocity.y, 0);
                 }
             }
-            
-
-
-            /*
-            rb.AddForce(Vector3.right * moveInput * airAcceleration, ForceMode.Acceleration);
-
-            //float maxAirSpeed = speed * 1.5f;
-            float maxAirSpeed = speed * 3;
-
-            if (Mathf.Abs(rb.linearVelocity.x) > maxAirSpeed)
-            {
-                rb.linearVelocity = new Vector3(Mathf.Sign(rb.linearVelocity.x) * maxAirSpeed, rb.linearVelocity.y, 0);
-            }*/
         }
-       // Debug.Log(playerGrounded);
+
+        // if rope is bungee
+
+
+    }
+
+
+    public void OnBungee(InputAction.CallbackContext context)
+    {
+        if (rope.bungee && ropeTight && !anchored)
+        {
+            Vector3 directionToLaunch = (otherPlayer.position - transform.position).normalized;
+            rb.AddForce(directionToLaunch * speed, ForceMode.Acceleration);
+        }
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -121,13 +123,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAnchor(InputAction.CallbackContext context)
     {
-        if (!anchored)
+        if (!anchored && playerGrounded)
         {
             anchored = true;
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.isKinematic = true;
         }
-        else
+        else 
         {
             anchored = false;
             rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;

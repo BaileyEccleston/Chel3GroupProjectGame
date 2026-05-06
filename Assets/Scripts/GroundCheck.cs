@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerGroundCheck : MonoBehaviour
+public class GroundCheck : MonoBehaviour
 {
     public PlayerMovement player;
 

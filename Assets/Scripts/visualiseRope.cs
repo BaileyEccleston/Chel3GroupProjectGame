@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class RopeBridge : MonoBehaviour
+public class visualiseRope : MonoBehaviour
 {
     private LineRenderer lineRenderer;
     public Transform player1;
