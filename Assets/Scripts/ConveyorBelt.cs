@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class ConveyorBelt : MonoBehaviour
 {
     public Vector3 direction = Vector3.right;
     public float force = 10f;
@@ -8,16 +8,15 @@ public class NewMonoBehaviourScript : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         // check if it's the player
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("feet"))
         {
-            Rigidbody rb = other.GetComponent<Rigidbody>();
+            // Get the Rigidbody from the parent (the Player)
+            Rigidbody rb = other.GetComponentInParent<Rigidbody>();
 
-            // if it has a rigidbody
             if (rb != null)
             {
-                Vector3 push = direction.normalized * force;
-
-                rb.AddForce(push, ForceMode.Acceleration);
+                Vector3 movement = direction.normalized * force * Time.fixedDeltaTime;
+                rb.MovePosition(rb.position + movement);
             }
         }
     }
