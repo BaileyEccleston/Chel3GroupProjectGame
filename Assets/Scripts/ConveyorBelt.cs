@@ -3,7 +3,7 @@ using UnityEngine;
 public class ConveyorBelt : MonoBehaviour
 {
     public Vector3 direction = Vector3.right;
-    public float force = 10f;
+    public float force;
 
     void OnTriggerStay(Collider other)
     {
@@ -16,7 +16,7 @@ public class ConveyorBelt : MonoBehaviour
             if (rb != null)
             {
                 Vector3 movement = direction.normalized * force * Time.fixedDeltaTime;
-                rb.MovePosition(rb.position + movement);
+                rb.MovePosition(rb.position + movement*Time.fixedDeltaTime);
             }
         }
     }

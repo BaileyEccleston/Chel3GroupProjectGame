@@ -4,32 +4,46 @@ using UnityEngine;
 
 public class TimerButton : MonoBehaviour
 {
-    public float pressDepth = 0.2f;
-    public float pressSpeed = 10f;
+    [Header("Animation")]
+    [SerializeField]
+    private Animation anim;
 
+    [SerializeField]
+    private AnimationClip ButtonUp;
+
+    [SerializeField]
+    private AnimationClip ButtonDown;
+
+    [Header("Platform")]
     public Piston piston;
 
-    private Vector3 startPos;
-    private Vector3 downPos;
+    [Header("Button Type")]
+    [SerializeField]
+    private bool useCooldown = false;
 
-    private bool isPressed = false;
+    [SerializeField]
+    private float cooldownTime = 3f;
 
-    void Start()
-    {
-        startPos = transform.localPosition;
-        downPos = startPos + Vector3.down * pressDepth;
-    }
+    private Coroutine cooldownRoutine;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            isPressed = true;
-
-            if (piston != null)
+            // cancel cooldown if player steps back on
+            if (cooldownRoutine != null)
             {
-                piston.SetActive(true);
+                StopCoroutine(cooldownRoutine);
             }
+
+            // play down animation
+            if (ButtonDown != null)
+            {
+                anim.clip = ButtonDown;
+                anim.Play();
+            }
+
+            piston.SetActive(true);
         }
     }
 
@@ -37,28 +51,33 @@ public class TimerButton : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            piston.SetActive(false);
+            if (useCooldown)
+            {
+                cooldownRoutine = StartCoroutine(Cooldown());
+            }
+            else
+            {
+                TurnOff();
+            }
         }
     }
 
-    void Update()
+    IEnumerator Cooldown()
     {
-        // move button down or up
-        if (isPressed)
+        yield return new WaitForSeconds(cooldownTime);
+
+        TurnOff();
+    }
+
+    void TurnOff()
+    {
+        // play up animation
+        if (ButtonUp != null)
         {
-            transform.localPosition = Vector3.Lerp(
-                transform.localPosition,
-                downPos,
-                pressSpeed * Time.deltaTime
-            );
+            anim.clip = ButtonUp;
+            anim.Play();
         }
-        else
-        {
-            transform.localPosition = Vector3.Lerp(
-                transform.localPosition,
-                startPos,
-                pressSpeed * Time.deltaTime
-            );
-        }
+
+        piston.SetActive(false);
     }
 }
