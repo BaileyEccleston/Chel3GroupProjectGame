@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -32,13 +33,17 @@ public class PlayerMovement : MonoBehaviour
 
     bool ropeTight;
     bool launched = false;
-    bool hasBounced = false; 
+    bool hasBounced = false;
+    private float startingBounceAmount = 18f;
+    private float currentBounceAmount;
+    private float timesBounced = 0;
 
     public StarManager starManager;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        currentBounceAmount = startingBounceAmount;
     }
 
     void FixedUpdate()
@@ -47,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerGrounded)
         {
+            timesBounced = 0;
             coyoteTimeStarted = false;
             hasBounced = false; 
         }
@@ -71,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    if (rope.bungee && !hasBounced && transform.position.y < otherPlayer.position.y)
+                    if (rope.bungee && !hasBounced && transform.position.y < otherPlayer.position.y - 5)
                     {
                         hasBounced = true;
                         launched = true;
@@ -79,7 +85,38 @@ public class PlayerMovement : MonoBehaviour
                         Vector3 directionToLaunch = (otherPlayer.position - transform.position).normalized;
                         rb.linearVelocity = Vector3.zero;
 
-                        rb.AddForce(directionToLaunch * 18f, ForceMode.VelocityChange);
+
+                        // change amount bounced based on how many times you have bounced previously
+
+                        switch (timesBounced)
+                        {
+                            case 0:
+                                currentBounceAmount = startingBounceAmount;
+                                break;
+                            case 1:
+                                currentBounceAmount = startingBounceAmount * 0.9f;
+                                break;
+                            case 2:
+                                currentBounceAmount = startingBounceAmount * 0.8f;
+                                break;
+                            case 3:
+                                currentBounceAmount = startingBounceAmount * 0.7f;
+                                break;
+                            case 4:
+                                currentBounceAmount = startingBounceAmount * 0.6f;
+                                break;
+                            case 5:
+                                currentBounceAmount = startingBounceAmount * 0.4f;
+                                break;
+                            case 6:
+                                currentBounceAmount = startingBounceAmount * 0.2f;
+                                break;
+                        }
+                        if (timesBounced < 7)
+                        {
+                            rb.AddForce(directionToLaunch * currentBounceAmount, ForceMode.VelocityChange);
+                            timesBounced++;
+                        }
 
                         StartCoroutine(ResetLaunch());
                     }
