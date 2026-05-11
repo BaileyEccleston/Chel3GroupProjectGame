@@ -67,7 +67,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 32.3
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 7508338685098487738}
   m_Layer: 0
   m_Name: Player1 (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,7 +223,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000020527581, y: -0.00000033226777, z: 0.0000010456466, w: 1}
   m_LocalPosition: {x: -13.680849, y: 21.532444, z: -33.65406}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5635051017544527048}
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 6dbdd3eac578b3e47afd16fe2e411c47, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -418,6 +418,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: dc532b1d-0a30-4618-a7b8-141f49881eec
     m_ActionName: 'Player/Anchor[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1b32f0d0-b566-4a47-9b42-848130ab5a0c
+    m_ActionName: 'Player/BungeeLaunch[/DualSenseGamepadHID/buttonNorth,/DualSenseGamepadHID1/buttonNorth]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Player
@@ -463,8 +467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713e8ad9857039749a7307cd8010cf48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bungee: 0
   anchorPlayer: {fileID: 6421413301001292528}
-  maxRopeLength: 5
+  maxRopeLength: 3
 --- !u!1 &4957285868640555948
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +523,7 @@ GameObject:
   - component: {fileID: 6070688556812430660}
   m_Layer: 0
   m_Name: Player2 (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -533,7 +538,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000023035548, y: -0.0000003579857, z: 0.0000013708152, w: 1}
   m_LocalPosition: {x: -11.78087, y: 21.511892, z: -33.65406}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4107373187754276622}
@@ -656,7 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 6dbdd3eac578b3e47afd16fe2e411c47, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -717,6 +722,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: dc532b1d-0a30-4618-a7b8-141f49881eec
     m_ActionName: 'Player/Anchor[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1b32f0d0-b566-4a47-9b42-848130ab5a0c
+    m_ActionName: 'Player/BungeeLaunch[/DualSenseGamepadHID/buttonNorth,/DualSenseGamepadHID1/buttonNorth]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Player
@@ -762,8 +771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713e8ad9857039749a7307cd8010cf48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bungee: 0
   anchorPlayer: {fileID: 2443237356420270082}
-  maxRopeLength: 5
+  maxRopeLength: 3
 --- !u!1 &6317475722305516948
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,7 +787,7 @@ GameObject:
   - component: {fileID: 6801020221790692211}
   m_Layer: 0
   m_Name: feet
-  m_TagString: Untagged
+  m_TagString: feet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -998,7 +1008,7 @@ GameObject:
   - component: {fileID: 6565691848639479641}
   m_Layer: 0
   m_Name: feet
-  m_TagString: Untagged
+  m_TagString: feet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

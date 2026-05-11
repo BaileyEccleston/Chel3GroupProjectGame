@@ -141,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (rope.bungee && ropeTight && !anchored && playerGrounded && otherPlayer.GetComponent<PlayerMovement>().playerGrounded)
             {
+                Debug.Log("Launched");
                 launched = true;
                 Vector3 targetPosition = otherPlayer.position + Vector3.up * 3f;
                 Vector3 directionToLaunch = (targetPosition - transform.position).normalized;
