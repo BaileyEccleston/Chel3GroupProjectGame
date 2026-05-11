@@ -41,6 +41,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "IncreaseRopeLength",
+                    "type": "Button",
+                    "id": "bd400932-5bcb-4816-88de-5cc559457da8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DecreaseRopeLength",
+                    "type": "Button",
+                    "id": "d0d0d530-a5e8-462f-b68b-f2b185f77ccc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -96,6 +114,28 @@
                     "processors": "",
                     "groups": ";Player",
                     "action": "BungeeLaunch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e75cce79-8f8b-4891-9f91-864211967497",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IncreaseRopeLength",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bed398c2-997a-4396-8106-89b1ec1b5615",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DecreaseRopeLength",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

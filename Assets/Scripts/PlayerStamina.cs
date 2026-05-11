@@ -1,16 +1,29 @@
 using System.Transactions;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerStamina : MonoBehaviour
 {
     public float maxStamina;
-    float currentStamina;
+    public float currentStamina;
     public float staminaPerSecond;
+
+    public Image staminaBar;
+
+    bool barToggle;
 
 
     private void Start()
     {
+        barToggle = false;
+        staminaBar.gameObject.SetActive(false);
         currentStamina = maxStamina;
+    }
+
+    private void FixedUpdate()
+    {
+        staminaBar.fillAmount = currentStamina / maxStamina;
     }
 
 
@@ -24,13 +37,32 @@ public class PlayerStamina : MonoBehaviour
         currentStamina += stamina;
     }
 
-    public void resetStamina()
+
+
+    public void ResetStamina()
     {
+
+        StartCoroutine(ToggleStamina());
         currentStamina = maxStamina;
     }
 
     public void EmptyStamina()
     {
         currentStamina = 0;
+    }
+
+    public IEnumerator ToggleStamina()
+    {
+        if (barToggle)
+        {
+            barToggle = false;
+            yield return new WaitForSeconds(2);
+            staminaBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            barToggle = true;
+            staminaBar.gameObject.SetActive(true);
+        }
     }
 }

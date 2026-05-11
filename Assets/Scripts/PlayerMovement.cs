@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     bool playerWalled = false;
     public LayerMask wallLayer;
     PlayerStamina playerStamina;
+
 
     [Header("Rope")]
     public Rope rope;
@@ -64,7 +66,18 @@ public class PlayerMovement : MonoBehaviour
             hasBounced = false; 
         }
 
-        
+
+
+        if (playerStamina.currentStamina <= 0)
+        {
+            anchored = false;
+            rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            rb.isKinematic = false;
+            if (playerGrounded)
+            {
+                playerStamina.ResetStamina();
+            }
+        }
 
         float distance = Vector3.Distance(transform.position, otherPlayer.position);
         ropeTight = distance >= rope.maxRopeLength * ropeTensionThreshold;
@@ -73,14 +86,20 @@ public class PlayerMovement : MonoBehaviour
         {
             if (playerGrounded)
             {
-                rb.linearVelocity = new Vector3(moveInput * speed, rb.linearVelocity.y, 0);
+                if (!rb.isKinematic)
+                {
+                    rb.linearVelocity = new Vector3(moveInput * speed, rb.linearVelocity.y, 0);
+                }
             }
             else
             {
                 if (!ropeTight)
                 {
                     hasBounced = false; 
-                    rb.linearVelocity = new Vector3(moveInput * speed, rb.linearVelocity.y, 0);
+                    if (!rb.isKinematic)
+                    {
+                        rb.linearVelocity = new Vector3(moveInput * speed, rb.linearVelocity.y, 0);
+                    }
                 }
                 else
                 {
@@ -183,28 +202,47 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAnchor(InputAction.CallbackContext context)
     {
-        if (!anchored && playerGrounded && !playerWalled)
+        if (context.started)
         {
-            anchored = true;
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-            rb.isKinematic = true;
-        }
-        else if (!anchored && !playerGrounded && playerWalled)
-        {
-            anchored = true;
-        }
-        else
-        {
-            anchored = false;
-            rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-            rb.isKinematic = false;
+            if (!anchored && playerGrounded && !playerWalled)
+            {
+
+                anchored = true;
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+                rb.isKinematic = true;
+            }
+            else if (!anchored && !playerGrounded && playerWalled)
+            {
+                playerStamina.StopAllCoroutines();
+                playerStamina.StartCoroutine(playerStamina.ToggleStamina());
+                anchored = true;
+                rb.isKinematic = true;
+                StartCoroutine(UseStamina());
+            }
+            else
+            {
+                anchored = false;
+                rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                rb.isKinematic = false;
+            }
         }
     }
 
     public IEnumerator UseStamina()
     {
-        yield return new WaitForSeconds(1);
-        playerStamina.LoseStamina(playerStamina.staminaPerSecond);
+        if (playerStamina.currentStamina > 0)
+        {
+            yield return new WaitForSeconds(1);
+            playerStamina.LoseStamina(playerStamina.staminaPerSecond);
+            if (playerWalled)
+            {
+                StartCoroutine(UseStamina());
+            }
+            else
+            {
+                playerStamina.ResetStamina();
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

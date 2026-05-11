@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Rope : MonoBehaviour
 {
@@ -43,5 +44,15 @@ public class Rope : MonoBehaviour
             }
 
         }
+    }
+
+    public void OnIncreaseRopeLength(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void OnDecreaseRopeLength(InputAction.CallbackContext context)
+    {
+
     }
 }
