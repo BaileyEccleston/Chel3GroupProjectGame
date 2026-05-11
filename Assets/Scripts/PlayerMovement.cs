@@ -23,6 +23,11 @@ public class PlayerMovement : MonoBehaviour
 
     float airAcceleration = 30f;
 
+    [Header("Wall Check & Stamina")]
+    bool playerWalled = false;
+    public LayerMask wallLayer;
+    PlayerStamina playerStamina;
+
     [Header("Rope")]
     public Rope rope;
     public float ropeTensionThreshold = 0.8f;
@@ -44,11 +49,13 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         currentBounceAmount = startingBounceAmount;
+        playerStamina = GetComponent<PlayerStamina>();
     }
 
     void FixedUpdate()
     {
         playerGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
+        playerWalled = Physics.CheckSphere(groundCheck.position, checkRadius, wallLayer);
 
         if (playerGrounded)
         {
@@ -176,11 +183,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAnchor(InputAction.CallbackContext context)
     {
-        if (!anchored && playerGrounded)
+        if (!anchored && playerGrounded && !playerWalled)
         {
             anchored = true;
             rb.constraints = RigidbodyConstraints.FreezeAll;
             rb.isKinematic = true;
+        }
+        else if (!anchored && !playerGrounded && playerWalled)
+        {
+            anchored = true;
         }
         else
         {
@@ -188,6 +199,12 @@ public class PlayerMovement : MonoBehaviour
             rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             rb.isKinematic = false;
         }
+    }
+
+    public IEnumerator UseStamina()
+    {
+        yield return new WaitForSeconds(1);
+        playerStamina.LoseStamina(playerStamina.staminaPerSecond);
     }
 
     private void OnTriggerEnter(Collider other)
