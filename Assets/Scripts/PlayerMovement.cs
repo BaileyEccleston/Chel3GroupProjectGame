@@ -47,6 +47,17 @@ public class PlayerMovement : MonoBehaviour
 
     public StarManager starManager;
 
+    [Header("Feedback")]
+    [SerializeField]
+    private AudioSource Audio;
+    [SerializeField]
+    private AudioClip Anchorclip;
+    [SerializeField]
+    private AudioClip Jumpclip;
+    [SerializeField]
+    private ParticleSystem landDust;
+    bool wasGrounded;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,9 +67,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        wasGrounded = playerGrounded;
         playerGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
         playerWalled = Physics.CheckSphere(groundCheck.position, checkRadius, wallLayer);
-
+        if(!wasGrounded && playerGrounded)
+        {
+            landDust.Play();
+        }
         if (playerGrounded)
         {
             timesBounced = 0;
@@ -187,10 +202,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
+
             if (playerGrounded || coyoteTimeStarted)
             {
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, 0);
                 coyoteTimeStarted = false;
+                if (!anchored)
+                {
+                    Audio.clip = Jumpclip;
+                    Audio.Play();
+                }
             }
         }
 
@@ -206,7 +227,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!anchored && playerGrounded && !playerWalled)
             {
-
+                Audio.clip = Anchorclip;
+                Audio.Play();
                 anchored = true;
                 rb.constraints = RigidbodyConstraints.FreezeAll;
                 rb.isKinematic = true;
