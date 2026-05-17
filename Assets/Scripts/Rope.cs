@@ -10,13 +10,37 @@ public class Rope : MonoBehaviour
     public Transform anchorPlayer;
     public float maxRopeLength = 5f;
 
+    [SerializeField] private float ropeAdjustSpeed = 3f;
+    [SerializeField] private float minRopeLength = 1f;
+    [SerializeField] private float maxAllowedRopeLength = 15f;
+
     private Rigidbody rb;
     private PlayerMovement playerMovement;
+
+    private bool increasingRope;
+    private bool decreasingRope;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
+    }
+    void Update()
+    {
+        if (increasingRope && playerMovement.canChangeRopeLength && playerMovement.otherPlayer.GetComponent<PlayerMovement>().canChangeRopeLength)
+        {
+            Debug.Log("Increase length");
+            maxRopeLength += ropeAdjustSpeed * Time.deltaTime;
+        }
+
+        if (decreasingRope && playerMovement.canChangeRopeLength && playerMovement.otherPlayer.GetComponent<PlayerMovement>().canChangeRopeLength)
+        {
+            Debug.Log("Decrease length");
+            maxRopeLength -= ropeAdjustSpeed * Time.deltaTime;
+        }
+
+
+        maxRopeLength = Mathf.Clamp(maxRopeLength, minRopeLength, maxAllowedRopeLength);
     }
 
     void FixedUpdate()
@@ -48,11 +72,11 @@ public class Rope : MonoBehaviour
 
     public void OnIncreaseRopeLength(InputAction.CallbackContext context)
     {
-
+        increasingRope = context.ReadValueAsButton();
     }
 
     public void OnDecreaseRopeLength(InputAction.CallbackContext context)
     {
-
+        decreasingRope = context.ReadValueAsButton();
     }
 }

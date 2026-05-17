@@ -58,12 +58,19 @@ public class PlayerMovement : MonoBehaviour
     private ParticleSystem landDust;
     bool wasGrounded;
 
+
+    [Header("Checkpoints")]
+    public Checkpoints checkpoint;
+
     void Start()
     {
+
         rb = GetComponent<Rigidbody>();
         currentBounceAmount = startingBounceAmount;
         playerStamina = GetComponent<PlayerStamina>();
+
     }
+
 
     void FixedUpdate()
     {
@@ -241,12 +248,13 @@ public class PlayerMovement : MonoBehaviour
                 rb.isKinematic = true;
                 StartCoroutine(UseStamina());
             }
-            else
-            {
-                anchored = false;
-                rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                rb.isKinematic = false;
-            }
+        }
+
+        if (context.canceled)
+        {
+            anchored = false;
+            rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            rb.isKinematic = false;
         }
     }
 
@@ -267,6 +275,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public bool canChangeRopeLength = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("StarCollectable"))
@@ -279,6 +289,32 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             starManager.collectablesCollected++;
+        }
+        else if (other.CompareTag("DynamicRope"))
+        {
+            canChangeRopeLength = true;
+        }
+        else if (other.CompareTag("Checkpoint"))
+        {
+            string numberText = other.gameObject.name;
+            int newNum;
+
+            if (int.TryParse(numberText, out newNum))
+            {
+                if (newNum > checkpoint.currentCheckpoint)
+                {
+                    checkpoint.currentCheckpoint = newNum;
+                    Debug.Log("Updated to " + checkpoint.currentCheckpoint);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("DynamicRope"))
+        {
+            canChangeRopeLength = false;
         }
     }
 
@@ -299,5 +335,46 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
+    }
+
+    public bool respawnRunning = false;
+    public PlayerLives lives;
+    public IEnumerator Respawn()
+    {
+        respawnRunning = true;
+        if (otherPlayer.GetComponent<PlayerMovement>().respawnRunning)
+        {
+            lives.DecreaseLives();
+            otherPlayer.GetComponent<PlayerMovement>().StopAllCoroutines();
+            RestartFromCheckpoint();
+            otherPlayer.GetComponent<PlayerMovement>().RestartFromCheckpoint();
+        }
+        else
+        {
+            lives.DecreaseLives();
+            yield return new WaitForSeconds(5f);
+            respawnRunning = false;
+            Vector3 respawnPoint = new Vector3(otherPlayer.transform.position.x, otherPlayer.transform.position.y + 2, otherPlayer.transform.position.z);
+            transform.position = respawnPoint;
+        }
+
+    }
+
+    public void RestartFromCheckpoint()
+    {
+        Vector3 checkpointPos = checkpoint.checkpoints[checkpoint.currentCheckpoint - 1].transform.position;
+
+        if (gameObject.name.Contains("1"))
+        {
+            transform.position = checkpointPos + Vector3.left * 0.5f;
+        }
+        else if (gameObject.name.Contains("2"))
+        {
+            transform.position = checkpointPos + Vector3.right * 0.5f;
+        }
+        else
+        {
+            transform.position = checkpointPos;
+        }
     }
 }

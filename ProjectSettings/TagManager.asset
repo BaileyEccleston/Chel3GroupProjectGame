@@ -10,6 +10,8 @@ TagManager:
   - Seesaw
   - feet
   - Wall
+  - DynamicRope
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

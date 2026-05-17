@@ -98,7 +98,7 @@
                 {
                     "name": "",
                     "id": "96d7943e-895a-48eb-983a-a48da43b9e67",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Player",
@@ -120,10 +120,10 @@
                 {
                     "name": "",
                     "id": "e75cce79-8f8b-4891-9f91-864211967497",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player",
                     "action": "IncreaseRopeLength",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -131,10 +131,10 @@
                 {
                     "name": "",
                     "id": "bed398c2-997a-4396-8106-89b1ec1b5615",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player",
                     "action": "DecreaseRopeLength",
                     "isComposite": false,
                     "isPartOfComposite": false
