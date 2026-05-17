@@ -5,6 +5,9 @@ public class FallingPlatformScript : MonoBehaviour
 {
     public Rigidbody rb;
 
+    public float shakeTime = 0.4f;
+    public float respawnTime = 3f;
+
     Vector3 startPos;
     Quaternion startRot;
 
@@ -20,9 +23,12 @@ public class FallingPlatformScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !falling)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(Fall());
+            if (!falling)
+            {
+                StartCoroutine(Fall());
+            }
         }
     }
 
@@ -33,21 +39,24 @@ public class FallingPlatformScript : MonoBehaviour
         Vector3 pos = transform.position;
 
         // shake
-        for (float i = 0; i < 0.4f; i += Time.deltaTime)
+        for (float i = 0; i < shakeTime; i += Time.deltaTime)
         {
             transform.position = pos + Random.insideUnitSphere * 0.03f;
+
             yield return null;
         }
 
         transform.position = pos;
-        yield return new WaitForSeconds(2f);
+
         // fall
         GetComponent<Collider>().enabled = false;
+
         rb.isKinematic = false;
 
-        yield return new WaitForSeconds(3f);
+        // wait before respawn
+        yield return new WaitForSeconds(respawnTime);
 
-        // reset
+        // reset platform
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
