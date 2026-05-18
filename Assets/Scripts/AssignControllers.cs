@@ -15,7 +15,7 @@ public class AssignControllers : MonoBehaviour
     {
         var controllers = Gamepad.all;
 
-        if (controllers.Count >= 1)
+        /*if (controllers.Count >= 1)
         {
             InputUser.PerformPairingWithDevice(controllers[0], player1.user);
             Debug.Log("Assigned player 1 to controller 1");
@@ -24,6 +24,26 @@ public class AssignControllers : MonoBehaviour
         {
             InputUser.PerformPairingWithDevice(controllers[1], player2.user);
             Debug.Log("Assigned player 1 to controller 2");
+        }*/
+
+        if (controllers.Count == 2)
+        {
+            InputUser.PerformPairingWithDevice(controllers[0], player1.user);
+            Debug.Log("Assigned player 1 to controller 1");
+
+            InputUser.PerformPairingWithDevice(controllers[1], player2.user);
+            Debug.Log("Assigned player 1 to controller 2");
+
+
+            // Force to use the newly paired controls
+            player1.SwitchCurrentControlScheme(controllers[0]);
+
+            player2.SwitchCurrentControlScheme(controllers[1]);
+
+        }
+        else
+        {
+            Debug.LogWarning("Not enough controllers");
         }
     }
 
