@@ -46,6 +46,11 @@ public class PlayerStamina : MonoBehaviour
         currentStamina = maxStamina;
     }
 
+    public void JustResetStamina()
+    {
+        currentStamina = maxStamina;
+    }
+
     public void EmptyStamina()
     {
         currentStamina = 0;

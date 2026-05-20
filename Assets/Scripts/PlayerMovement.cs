@@ -62,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Checkpoints")]
     public Checkpoints checkpoint;
 
+    [Header("Animations")]
+    public PlayerAnimation playerAnimation;
+
     void Start()
     {
 
@@ -74,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (jumpOnWall && playerGrounded)
+        {
+            jumpOnWall = false;
+            playerStamina.ResetStamina();
+        }
         wasGrounded = playerGrounded;
         playerGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
         playerWalled = Physics.CheckSphere(groundCheck.position, checkRadius, wallLayer);
@@ -90,16 +98,15 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (playerStamina.currentStamina <= 0)
+        if (playerStamina.currentStamina <= 0 && !jumpOnWall)
         {
+            playerStamina.ResetStamina();
             anchored = false;
             rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             rb.isKinematic = false;
-            if (playerGrounded)
-            {
-                playerStamina.ResetStamina();
-            }
         }
+
+
 
         float distance = Vector3.Distance(transform.position, otherPlayer.position);
         ropeTight = distance >= rope.maxRopeLength * ropeTensionThreshold;
@@ -200,20 +207,45 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
 
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<float>();
+        if (moveInput != 0)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = moveInput;
+            transform.localScale = scale;
+        }
+
+
+  
+
     }
 
+    bool jumpOnWall = false;
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-
+            if (playerWalled && playerStamina.currentStamina > 0)
+            {
+                jumpOnWall = true;
+                playerStamina.StopAllCoroutines();
+                UseJumpStamina();
+                playerStamina.StartCoroutine(playerStamina.ToggleStamina());
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, 0);
+                coyoteTimeStarted = false;
+                if (!anchored)
+                {
+                    Audio.clip = Jumpclip;
+                    Audio.Play();
+                }
+            }
             if (playerGrounded || coyoteTimeStarted)
             {
+
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, 0);
                 coyoteTimeStarted = false;
                 if (!anchored)
@@ -266,7 +298,7 @@ public class PlayerMovement : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             playerStamina.LoseStamina(playerStamina.staminaPerSecond);
-            if (playerWalled)
+            if (anchored)
             {
                 StartCoroutine(UseStamina());
             }
@@ -274,6 +306,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerStamina.ResetStamina();
             }
+        }
+    }
+
+
+    public void UseJumpStamina()
+    {
+        if (playerStamina.currentStamina > 0)
+        {
+            playerStamina.LoseStamina(playerStamina.staminaPerSecond * 4);
         }
     }
 
