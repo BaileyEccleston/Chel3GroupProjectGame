@@ -19,13 +19,13 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     public float jumpForce = 15f;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     public float moveInput;
 
     float airAcceleration = 30f;
 
     [Header("Wall Check & Stamina")]
-    bool playerWalled = false;
+    public bool playerWalled = false;
     public LayerMask wallLayer;
     PlayerStamina playerStamina;
 
@@ -199,6 +199,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    
 
     public void OnMove(InputAction.CallbackContext context)
     {
