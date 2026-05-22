@@ -71,6 +71,8 @@ MonoBehaviour:
   ButtonUp: {fileID: 7400000, guid: bc8dfce5a66302545afb24cd15d82036, type: 2}
   ButtonDown: {fileID: 7400000, guid: bed013e528a04904eb4538f17346f519, type: 2}
   piston: {fileID: 0}
+  useCooldown: 0
+  cooldownTime: 3
 --- !u!1001 &3833407284618555932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79,6 +81,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 305609069119389433}
     m_Modifications:
+    - target: {fileID: 1041128545447894504, guid: 471003368f0d50e45992a922fc1e7bfa, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2802337844043180578, guid: c7661aa4aacda6d48b9c7de22f66a7a1, type: 3}
+    - target: {fileID: 1517102591802533018, guid: 471003368f0d50e45992a922fc1e7bfa, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -4805918751261602647, guid: c7661aa4aacda6d48b9c7de22f66a7a1, type: 3}
     - target: {fileID: 3693354388209012875, guid: 471003368f0d50e45992a922fc1e7bfa, type: 3}
       propertyPath: m_Name
       value: Button
