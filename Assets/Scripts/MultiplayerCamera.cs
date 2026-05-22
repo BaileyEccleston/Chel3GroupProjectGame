@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class MultiplayerCamera : MonoBehaviour
 {
-    [SerializeField] 
+
     private Transform player1;
-    [SerializeField] 
+
     private Transform player2;
 
     public float smoothSpeed = 5f;
@@ -20,6 +20,8 @@ public class MultiplayerCamera : MonoBehaviour
 
     void Start()
     {
+        player1 = GameObject.Find("Player1").GetComponent<Transform>();
+        player2 = GameObject.Find("Player2").GetComponent<Transform>();
         cam = GetComponent<Camera>();
     }
 

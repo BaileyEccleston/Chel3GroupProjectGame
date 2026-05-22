@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private float currentBounceAmount;
     private float timesBounced = 0;
 
-    public StarManager starManager;
+    StarManager starManager;
 
     [Header("Feedback")]
     [SerializeField]
@@ -59,15 +59,16 @@ public class PlayerMovement : MonoBehaviour
     bool wasGrounded;
 
 
-    [Header("Checkpoints")]
-    public Checkpoints checkpoint;
 
-    [Header("Animations")]
-    public PlayerAnimation playerAnimation;
+    Checkpoints checkpoint;
+
+
 
     void Start()
     {
-
+        starManager = FindFirstObjectByType<StarManager>();
+        lives = FindFirstObjectByType<PlayerLives>();
+        checkpoint = FindFirstObjectByType<Checkpoints>();
         rb = GetComponent<Rigidbody>();
         currentBounceAmount = startingBounceAmount;
         playerStamina = GetComponent<PlayerStamina>();
@@ -215,7 +216,14 @@ public class PlayerMovement : MonoBehaviour
         if (moveInput != 0)
         {
             Vector3 scale = transform.localScale;
-            scale.x = moveInput;
+            if (moveInput < 0)
+            {
+                scale.x = -1;
+            }
+            else if (moveInput > 0)
+            {
+                scale.x = 1;
+            }
             transform.localScale = scale;
         }
 
@@ -381,7 +389,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public bool respawnRunning = false;
-    public PlayerLives lives;
+    PlayerLives lives;
     public IEnumerator Respawn()
     {
         respawnRunning = true;

@@ -47,7 +47,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: ee57d9e4e147a404b9427d831e194406, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: dfc11d065527b3c47bf09b5660324ec8, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -125,7 +125,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: d997be70c9b055b48855bb243802f10f, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: ab8bb66f2b26b7e47b9d25a4ab981c75, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -154,7 +154,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 1579817357e252246a3a3833e7c39e79, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: 2cf2137e7d6412b49be79f14f693f417, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -216,7 +216,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlueFish
+  m_Name: HappyMask
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: IsRunning
@@ -334,7 +334,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: e24ab74f6b4ee9746ab0f03aabb31e35, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: 79617ad8cc2f5a94cafa027c4e869577, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
