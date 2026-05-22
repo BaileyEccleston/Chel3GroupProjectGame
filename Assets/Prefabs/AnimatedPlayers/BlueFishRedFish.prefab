@@ -5611,7 +5611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2110468393665843807}
   m_Layer: 0
-  m_Name: BlueFishRedFishj
+  m_Name: BlueFishRedFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11014,16 +11014,12 @@ MonoBehaviour:
   ropeTensionThreshold: 0.95
   coyoteTimeStarted: 0
   coyoteTimeLength: 0.2
-  starManager: {fileID: 0}
   Audio: {fileID: 936902304467063889}
   Anchorclip: {fileID: 8300000, guid: ab959bc03f9075f4ba5f091ae572351b, type: 3}
   Jumpclip: {fileID: 8300000, guid: 77c747e3e2f89da4ba81e5636cb388f0, type: 3}
   landDust: {fileID: 8217986255233938254}
-  checkpoint: {fileID: 0}
-  playerAnimation: {fileID: 0}
   canChangeRopeLength: 0
   respawnRunning: 0
-  lives: {fileID: 0}
 --- !u!114 &8443848082993567066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11490,16 +11486,12 @@ MonoBehaviour:
   ropeTensionThreshold: 0.95
   coyoteTimeStarted: 0
   coyoteTimeLength: 0.2
-  starManager: {fileID: 0}
   Audio: {fileID: 4411325265022566088}
   Anchorclip: {fileID: 8300000, guid: ab959bc03f9075f4ba5f091ae572351b, type: 3}
   Jumpclip: {fileID: 8300000, guid: 77c747e3e2f89da4ba81e5636cb388f0, type: 3}
   landDust: {fileID: 564686363989805746}
-  checkpoint: {fileID: 0}
-  playerAnimation: {fileID: 0}
   canChangeRopeLength: 0
   respawnRunning: 0
-  lives: {fileID: 0}
 --- !u!114 &5638836679245724329
 MonoBehaviour:
   m_ObjectHideFlags: 0
