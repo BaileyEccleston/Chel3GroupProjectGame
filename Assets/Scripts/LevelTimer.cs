@@ -5,11 +5,11 @@ public class LevelTimer : MonoBehaviour
 {
     public StarManager starManager;
 
-    public float goalTime = 60f;
+    public float goalTime = 180f;
 
     public TextMeshProUGUI timerText;
 
-    private float elapsedTime;
+    public float elapsedTime;
 
     bool levelFinished = false;
 
@@ -32,7 +32,7 @@ public class LevelTimer : MonoBehaviour
 
     public void levelComplete()
     {
-        if (elapsedTime >= goalTime)
+        if (elapsedTime <= goalTime)
         {
             starManager.starsEarned++;
         }
