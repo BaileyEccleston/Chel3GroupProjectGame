@@ -332,9 +332,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("StarCollectable"))
         {
-            Destroy(other.gameObject);
-            starManager.starCollectableCollected = true;
-            starManager.starsEarned++;
+          ///  Destroy(other.gameObject);
+          //  starManager.starCollectableCollected = true;
+          //  starManager.starsEarned++;
         }
         else if (other.CompareTag("Collectable"))
         {

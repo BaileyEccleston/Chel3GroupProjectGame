@@ -13,7 +13,7 @@ public class PlayerLives : MonoBehaviour
 
 
     public int startingLives = 3;
-    int currentLives;
+    public int currentLives;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
