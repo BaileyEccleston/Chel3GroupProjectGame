@@ -8,6 +8,7 @@ public class PlayPress : MonoBehaviour
     public Button ButtonPlay;
     public GameObject ClapperBoard;
     public Animation Playclack;
+    public SceneManagement SceneManagementT;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
