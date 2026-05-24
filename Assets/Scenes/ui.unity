@@ -2686,7 +2686,7 @@ MonoBehaviour:
   ButtonPlay: {fileID: 685990405}
   ClapperBoard: {fileID: 550863370}
   Playclack: {fileID: 550863372}
-  SceneManagementT: {fileID: 0}
+  SceneManagementT: {fileID: 1208961875}
 --- !u!114 &685990405
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ public class PlayPress : MonoBehaviour
 
         Debug.Log("Heya");
         Playclack.Play("Clack");
+        SceneManagementT.PlayGame();
 
     }
 

@@ -20,7 +20,7 @@ public class SceneManagement : MonoBehaviour
     public void PlayGame()
     {
         Swap.SetCostume();
-        SceneManager.LoadScene("Main Scene");
+        SceneManager.LoadScene(1);
     
     }
 

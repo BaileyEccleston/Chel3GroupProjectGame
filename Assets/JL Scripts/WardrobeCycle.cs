@@ -17,18 +17,7 @@ public class WardrobeCycle : MonoBehaviour
     {
     
     }
-    public void OnButtonForwardClick() 
-    {
-
-        Number++;
     
-    }
-    public void OnButtonBackClick()
-    {
-
-        Number--;
-
-    }
 
 
 

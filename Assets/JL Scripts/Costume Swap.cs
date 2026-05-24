@@ -55,7 +55,8 @@ public class CostumeSwap : MonoBehaviour
     {
 
         PlayerPrefs.SetInt("CostumeToLoad",CostumeNumber);
-    
+        PlayerPrefs.Save();
+
     }
     public void Correction() 
     {
