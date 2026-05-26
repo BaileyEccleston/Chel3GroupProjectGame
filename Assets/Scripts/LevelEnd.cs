@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
-
+    //stop level ending more than once
     bool levelComplete = false;
 
     public GameObject playUI;
@@ -15,6 +15,7 @@ public class LevelEnd : MonoBehaviour
 
     public TextMeshProUGUI endTimerText;
 
+    // star icons
     public GameObject star1;
     public GameObject star2;
     public GameObject star3;
@@ -34,8 +35,11 @@ public class LevelEnd : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // trigger end when the player collides with end goal box collider
         if (other.CompareTag("Player") && !levelComplete)
         {
+
+            // turn of level ui and turn on end ui
             levelComplete = true;
             levelTimer.levelComplete();
             float elapsedTime = levelTimer.elapsedTime;
@@ -50,11 +54,13 @@ public class LevelEnd : MonoBehaviour
 
             endTimerText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
 
+            // add star for ending with 3 lives
             if (playerLives.currentLives == 3)
             {
                 starManager.starsEarned++;
             }
 
+            // display earned stars
             if (starManager.starsEarned == 3)
             {
                 star1.SetActive(true);

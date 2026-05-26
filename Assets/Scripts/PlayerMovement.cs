@@ -13,9 +13,12 @@ public class PlayerMovement : MonoBehaviour
 
     public bool playerGrounded = false;
 
+    // anchor to the other player
     public Transform otherPlayer;
     public bool anchored = false;
 
+
+    // movement variables
     public float speed = 5f;
     public float jumpForce = 15f;
 
@@ -32,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Rope")]
     public Rope rope;
+
+    // how far the rope has to stretch to become tight
     public float ropeTensionThreshold = 0.8f;
 
     [Header("CoyoteTime")]
@@ -40,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool ropeTight;
     bool launched = false;
+    // limits bouncing
     bool hasBounced = false;
     private float startingBounceAmount = 18f;
     private float currentBounceAmount;
@@ -78,18 +84,24 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        //reset to not walled if on ground
         if (jumpOnWall && playerGrounded)
         {
             jumpOnWall = false;
             playerStamina.ResetStamina();
         }
         wasGrounded = playerGrounded;
+        // detect when grounded or walled
         playerGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
         playerWalled = Physics.CheckSphere(groundCheck.position, checkRadius, wallLayer);
+
+        // play efect when landing
         if(!wasGrounded && playerGrounded)
         {
             landDust.Play();
         }
+
+        // reset bounce when grounded
         if (playerGrounded)
         {
             timesBounced = 0;
@@ -98,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
+        // fall if stamina runs out
         if (playerStamina.currentStamina <= 0 && !jumpOnWall)
         {
             playerStamina.ResetStamina();
@@ -108,12 +120,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
+        // see if the rope is stretched
         float distance = Vector3.Distance(transform.position, otherPlayer.position);
         ropeTight = distance >= rope.maxRopeLength * ropeTensionThreshold;
 
         if (!launched)
         {
+            // normal movement when grounded
             if (playerGrounded)
             {
                 if (!rb.isKinematic)
@@ -123,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                // air movement when airborne but rope is not tight
                 if (!ropeTight)
                 {
                     hasBounced = false; 
@@ -195,9 +209,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
+            // bungee launch if both players are grounded and the other player is anchored
             if (rope.bungee && ropeTight && !anchored && playerGrounded && otherPlayer.GetComponent<PlayerMovement>().playerGrounded)
             {
-                Debug.Log("Launched");
                 launched = true;
                 Vector3 targetPosition = otherPlayer.position + Vector3.up * 3f;
                 Vector3 directionToLaunch = (targetPosition - transform.position).normalized;
@@ -213,7 +227,8 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<float>();
-        if (moveInput != 0)
+        // flip character in their faced direction
+        if (moveInput != 0 && !anchored)
         {
             Vector3 scale = transform.localScale;
             if (moveInput < 0)
@@ -237,6 +252,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
+            //wall jump
             if (playerWalled && playerStamina.currentStamina > 0)
             {
                 jumpOnWall = true;
@@ -251,6 +267,7 @@ public class PlayerMovement : MonoBehaviour
                     Audio.Play();
                 }
             }
+            // normal jump with coyote time
             if (playerGrounded || coyoteTimeStarted)
             {
 
@@ -263,7 +280,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-
+        // small jump if jump button is released early
         if (context.canceled && rb.linearVelocity.y > 0)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f, 0);
@@ -274,6 +291,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.started)
         {
+            // anchor to ground
             if (!anchored && playerGrounded && !playerWalled)
             {
                 Audio.clip = Anchorclip;
@@ -282,10 +300,12 @@ public class PlayerMovement : MonoBehaviour
                 rb.constraints = RigidbodyConstraints.FreezeAll;
                 rb.isKinematic = true;
             }
+            // anchor to wall
             else if (!anchored && !playerGrounded && playerWalled)
             {
                 playerStamina.StopAllCoroutines();
                 playerStamina.StartCoroutine(playerStamina.ToggleStamina());
+                rb.constraints = RigidbodyConstraints.FreezeAll;
                 anchored = true;
                 rb.isKinematic = true;
                 StartCoroutine(UseStamina());

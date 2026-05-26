@@ -26,7 +26,6 @@ public class StarManager : MonoBehaviour
             starsEarned++;
             collectedAllCollectables = true;
         }
-       // Debug.Log("Stars Earned" + starsEarned);
     }
 
     public void UpdateHearts()

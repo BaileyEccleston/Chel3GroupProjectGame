@@ -17,6 +17,7 @@ public class PlayerStamina : MonoBehaviour
     private void Start()
     {
         barToggle = false;
+        // set stamina bar to not display
         staminaBar.gameObject.SetActive(false);
         currentStamina = maxStamina;
     }

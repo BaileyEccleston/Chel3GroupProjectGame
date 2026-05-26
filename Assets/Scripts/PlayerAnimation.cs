@@ -20,6 +20,7 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // play idle when not moving 
         if (player.playerWalled&&player.playerGrounded && Mathf.Abs(player.rb.linearVelocity.x) > 0.1f && Mathf.Abs(player.rb.linearVelocity.y) > 0.1f)
         {
             playerAnimator.Play("Idle");

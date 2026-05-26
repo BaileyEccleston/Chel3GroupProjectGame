@@ -11,7 +11,7 @@ public class visualiseRope : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
 
-        // Set the number of points to 2 (Start and End)
+        // Set the number of points to 2 
         lineRenderer.positionCount = 2;
     }
 

@@ -8,8 +8,11 @@ public class Rope : MonoBehaviour
 
 
     public Transform anchorPlayer;
+    // max distance allowed between the 2 players
     public float maxRopeLength = 5f;
 
+
+    // variables for altering dynamic rope
     [SerializeField] private float ropeAdjustSpeed = 3f;
     [SerializeField] private float minRopeLength = 1f;
     [SerializeField] private float maxAllowedRopeLength = 15f;
@@ -27,6 +30,7 @@ public class Rope : MonoBehaviour
     }
     void Update()
     {
+        // alter length of rope when holding triggers
         if (increasingRope && playerMovement.canChangeRopeLength && playerMovement.otherPlayer.GetComponent<PlayerMovement>().canChangeRopeLength)
         {
             Debug.Log("Increase length");
@@ -39,14 +43,14 @@ public class Rope : MonoBehaviour
             maxRopeLength -= ropeAdjustSpeed * Time.deltaTime;
         }
 
-
+        // keep rope length within bounds
         maxRopeLength = Mathf.Clamp(maxRopeLength, minRopeLength, maxAllowedRopeLength);
     }
 
     void FixedUpdate()
     {
         float currentDistance = Vector3.Distance(transform.position, anchorPlayer.position);
-
+        // stop player from moving past max rope length
         if (currentDistance > maxRopeLength)
         {
             Vector3 directionToAnchor = (anchorPlayer.position - transform.position).normalized;
@@ -55,6 +59,7 @@ public class Rope : MonoBehaviour
 
             rb.MovePosition(targetPosition);
 
+            // adjust airborne velocity to stop movement away from the rope past the max length (keep player to circle around other player)
             if (!playerMovement.playerGrounded)
             {
                 float velocityAway = Vector3.Dot(rb.linearVelocity, -directionToAnchor);
@@ -64,6 +69,7 @@ public class Rope : MonoBehaviour
                     rb.linearVelocity += directionToAnchor * velocityAway;
                 }
 
+                // downward force when swinging
                 rb.AddForce(Vector3.down * 10f, ForceMode.Acceleration);
             }
 

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerLives : MonoBehaviour
 {
+    // ui hearts
     public GameObject heart1;
     public GameObject heart2;
     public GameObject heart3;
@@ -25,6 +26,7 @@ public class PlayerLives : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if lives reaches 0 reload scene
         if (currentLives <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
