@@ -22,9 +22,18 @@ public class LevelEnd : MonoBehaviour
 
     public PlayerLives playerLives;
 
+    GameObject[] players;
+
+    GameObject player1;
+    GameObject player2;
+  
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        player1 = players[0];
+        player2 = players[1];
         endScreenUI.SetActive(false);
     }
 
@@ -38,7 +47,11 @@ public class LevelEnd : MonoBehaviour
         // trigger end when the player collides with end goal box collider
         if (other.CompareTag("Player") && !levelComplete)
         {
+            Vector3 newPos = new Vector3(119.07f, 34.2f, 4.37f);
+            player1.transform.position = newPos;
 
+            newPos = new Vector3(119.7F, 34.2f, 5);
+            player2.transform.position = newPos;
             // turn of level ui and turn on end ui
             levelComplete = true;
             levelTimer.levelComplete();
